@@ -5,7 +5,11 @@ class IconFont extends StatelessWidget {
   double size;
   String iconName;
 
-  IconFont({required this.color, required this.size, required this.iconName, required IconData icon});
+  IconFont(
+      {required this.color,
+      required this.size,
+      required this.iconName,
+      required IconData icon});
 
   @override
   Widget build(BuildContext context) {

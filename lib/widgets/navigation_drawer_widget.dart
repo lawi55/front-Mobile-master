@@ -58,7 +58,7 @@ class _NavigationDrawerWidget extends State<NavigationDrawerWidget> {
       title = "Se connecter";
       isvisible;
     } else {
-      title = "My account";
+      title = "Mon profil Fidelys";
       isvisible = !isvisible;
     }
   }
@@ -72,7 +72,7 @@ class _NavigationDrawerWidget extends State<NavigationDrawerWidget> {
       });
     } else {
       setState(() {
-        title = "My account";
+        title = "Mon profil Fidelys";
       });
     }
 
@@ -87,7 +87,7 @@ class _NavigationDrawerWidget extends State<NavigationDrawerWidget> {
   void login(BuildContext context) {
     setState(() {});
     if (finalid == "0") {
-      title = "Login";
+      title = "Se connecter";
       isvisible = false;
       setState(() {});
       Navigator.pop(context);
@@ -95,15 +95,15 @@ class _NavigationDrawerWidget extends State<NavigationDrawerWidget> {
       setState(() {});
     } else {
       setState(() {
-        title = "My account";
+        title = "Mon profil Fidelys";
       });
       isvisible = true;
-      title = "My account";
+      title = "Mon profil Fidelys";
 
       Navigator.pop(context);
       widget.onChanged!(2);
       setState(() {
-        title = "My account";
+        title = "Mon profil Fidelys";
       });
     }
   }

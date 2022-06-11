@@ -1,6 +1,6 @@
 class Miles {
-  final double PrixUnitPrime = 5;
-  final double PrixUnitQualif = 10;
+  final double PrixUnitPrime = 0.7;
+  final double PrixUnitQualif = 0.14;
   double getPrixUnitPrime() {
     return PrixUnitPrime;
   }

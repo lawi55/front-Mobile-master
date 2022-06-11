@@ -85,7 +85,7 @@ class Fidelys {
       required this.pays,
       required this.pointdevente,
       required this.repas,
-      required this.card });
+      required this.card});
   factory Fidelys.fromJson(Map<String, dynamic> json) {
     return Fidelys(
       id: json["id"],

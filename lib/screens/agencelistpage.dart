@@ -30,21 +30,20 @@ class AgenceListPage extends StatelessWidget {
                 fontSize: 20,
                 fontWeight: FontWeight.bold)));
     return Scaffold(
-      drawer: NavigationDrawerWidget(),
+        drawer: NavigationDrawerWidget(),
         floatingActionButton: FloatingActionButton(
-          
           onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => WorldMap()),
-          );
-        },
-        tooltip: "Agences Tunisair dans le monde",
-        child: Icon(
-                                Icons.language,
-                                size: 30,
-                                color: Colors.white,
-                              ),
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WorldMap()),
+            );
+          },
+          tooltip: "Agences Tunisair dans le monde",
+          child: Icon(
+            Icons.language,
+            size: 30,
+            color: Colors.white,
+          ),
         ),
         appBar: AppBar(
           backgroundColor: Color(0xFFD80404),

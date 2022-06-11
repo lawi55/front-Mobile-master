@@ -131,9 +131,7 @@ class _SignUp extends State<SignUp> {
           context: context,
           barrierDismissible: true,
           builder: (BuildContext dialogContext) {
-            return MyAlertDialog(
-              title: 'Erreur',
-                 content: 'Compte deja exist');
+            return MyAlertDialog(title: 'Erreur', content: 'Compte deja exist');
           },
         );
       } else {
@@ -144,7 +142,7 @@ class _SignUp extends State<SignUp> {
           barrierDismissible: true,
           builder: (BuildContext dialogContext) {
             return MyAlertDialog(
-              title:'Compte créé avec succès',
+                title: 'Compte créé avec succès',
                 content: 'Bienvenue à Fidelys');
           },
         );
@@ -177,6 +175,16 @@ class _SignUp extends State<SignUp> {
       );
     }
   }
+
+  late String sexevalue;
+  late String natvalue;
+  late String paysvalue;
+  late String typevalue;
+  late String siegevalue;
+  late String repas1value;
+  late String classe1value;
+  late String payment1value;
+  late String habitude1value;
 
   final formKey = GlobalKey<FormState>();
   //editing controller
@@ -647,6 +655,7 @@ class _SignUp extends State<SignUp> {
       onChanged: (String? value) {
         setState(() {
           natdropdown = value.toString();
+          natvalue = natdropdown;
         });
       },
       validator: (value) {
@@ -950,6 +959,7 @@ class _SignUp extends State<SignUp> {
       onChanged: (String? value) {
         setState(() {
           paysdropdown = value.toString();
+          paysvalue = paysdropdown;
         });
       },
       validator: (value) {
@@ -1003,21 +1013,17 @@ class _SignUp extends State<SignUp> {
         DropdownMenuItem<String>(
             child: Text("Non spécifié"), value: 'Non spécifié'),
       ],
-      onChanged: (String? value) {
+      onChanged: (value) {
         setState(() {
           dropdownValue = value.toString();
+          print(dropdownValue);
+          sexevalue = dropdownValue;
         });
       },
       validator: (value) {
         if (value == '') return 'Champs obligatoire';
         return null;
       },
-
-      /* onChanged: (newValue) {
-        (item) => setState(() => selectedItem = newValue.toString());
-        print(newValue.toString());
-        print(selectedItem);
-      }, */
     );
     final cabine = DropdownButtonFormField(
       decoration: InputDecoration(
@@ -1064,6 +1070,7 @@ class _SignUp extends State<SignUp> {
       onChanged: (String? value) {
         setState(() {
           cabinevalue = value.toString();
+          siegevalue = cabinevalue;
         });
       },
       validator: (value) {
@@ -1150,6 +1157,7 @@ class _SignUp extends State<SignUp> {
       onChanged: (String? value) {
         setState(() {
           repasvalue = value.toString();
+          repas1value = repasvalue;
         });
       },
       validator: (value) {
@@ -1199,6 +1207,7 @@ class _SignUp extends State<SignUp> {
       onChanged: (String? value) {
         setState(() {
           classevalue = value.toString();
+          classe1value = classevalue;
         });
       },
       validator: (value) {
@@ -1249,6 +1258,7 @@ class _SignUp extends State<SignUp> {
       onChanged: (String? value) {
         setState(() {
           paymentvalue = value.toString();
+          payment1value = paymentvalue;
         });
       },
       validator: (value) {
@@ -1298,6 +1308,7 @@ class _SignUp extends State<SignUp> {
       onChanged: (String? value) {
         setState(() {
           habitudevalue = value.toString();
+          habitude1value = habitudevalue;
         });
       },
       validator: (value) {
@@ -1387,6 +1398,7 @@ class _SignUp extends State<SignUp> {
       onChanged: (String? value) {
         setState(() {
           typedadhesionvalue = value.toString();
+          typevalue = typedadhesionvalue;
         });
       },
       validator: (value) {
@@ -2346,7 +2358,7 @@ class _SignUp extends State<SignUp> {
           Icons.vpn_key,
           color: Colors.red,
         ),
-        contentPadding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+        contentPadding: EdgeInsets.fromLTRB(10, 20, 0, 20),
         labelText: "  Password",
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(80),
@@ -2367,6 +2379,10 @@ class _SignUp extends State<SignUp> {
           borderSide: BorderSide(color: Colors.white),
         ),
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) return 'Champs obligatoire';
+        return null;
+      },
     );
     final dateFlied = TextFormField(
       controller: birthadaydateController,
@@ -2519,10 +2535,10 @@ class _SignUp extends State<SignUp> {
                   fonctionController.text,
                   telproController.text,
                   faxController.text,
-                  dropdownValue,
-                  natdropdown,
+                  sexevalue,
+                  natvalue,
                   cinController.text,
-                  typedadhesionvalue,
+                  typevalue,
                   autrefidelController.text,
                   idmmbre1Controller.text,
                   idmmbre2Controller.text,
@@ -2533,12 +2549,12 @@ class _SignUp extends State<SignUp> {
                   pointduventeController.text,
                   agenceController.text,
                   lastflightController.text,
-                  cabinevalue,
-                  repasvalue,
-                  paysdropdown,
-                  habitudevalue,
-                  paymentvalue,
-                  classevalue,
+                  siegevalue,
+                  repas1value,
+                  paysvalue,
+                  habitude1value,
+                  payment1value,
+                  classe1value,
                   context);
             }
           },
@@ -2600,7 +2616,6 @@ class _SignUp extends State<SignUp> {
                       SizedBox(
                         height: 25,
                       ),
-
                       dateFlied,
                       SizedBox(
                         height: 25,

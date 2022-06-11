@@ -196,9 +196,9 @@ class _AchatMilesSettingsState extends State<AchatMilesSettings> {
           selected = index;
         });
         if (selected == 1) {
-          price = 5;
+          price = 0.7;
         } else if ((selected == 2)) {
-          price = 10;
+          price = 0.14;
         }
         if (selectedItem == '100') {
           tndprice = price * 100;

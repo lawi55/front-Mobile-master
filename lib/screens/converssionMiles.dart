@@ -138,56 +138,119 @@ class _ConverssionMiles extends State<ConverssionMiles> {
           ),
           elevation: 0.0,
         ),
-        body: Column(
-          children: [
-            Text("Convertissement des Miles Primes en Miles Qualifiants"),
-            Text("Miles Prime"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                    width: 170,
-                    height: 35,
-                    child: TextField(
-                      controller: milesprimecontroller,
-                      decoration: InputDecoration(border: OutlineInputBorder()),
+                Center(
+                  child: Text("Converssion des Miles",
+                      style: TextStyle(fontSize: 25, fontFamily: 'ElMessiri')),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text("Converssion des Miles Primes en Miles qualifiants",
+                    style: TextStyle(fontSize: 18)),
+                Divider(
+                  height: 20,
+                  thickness: 0.5,
+                  color: Colors.black,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                    "Combien de Miles Prime voulez-vous convertir ?\n(2 Miles Prime = 1 Miles qualifiant)",
+                    style: TextStyle(
+                      fontSize: 16,
                     )),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        width: 240,
+                        height: 40,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: milesprimecontroller,
+                          decoration:
+                              InputDecoration(border: OutlineInputBorder()),
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Miles qualifiants gagné : ",
+                        style: TextStyle(
+                          fontSize: 17,
+                        )),
+                    SizedBox(width: 20),
+                    Text(mliesqua,
+                        style: TextStyle(
+                          fontSize: 17,
+                        )),
+                    SizedBox(width: 20),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                           shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(color: Colors.red)),
+                            minimumSize: Size(80, 30),
+                            textStyle: TextStyle(fontSize: 17)),
+                        child: Text("Initialiser"),
+                        onPressed: () {
+                          TesterSolde(finalid, milesprimecontroller.text);
+                          setState(() {});
+                        }),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Text("NB : Vos Miles Prime converti seront perdu.",
+                    style: TextStyle(
+                      fontSize: 17,
+                    )),
+                SizedBox(
+                  height: 150,
+                ),
+                Container(
+                    child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(color: Colors.red)),
+                            minimumSize: Size(250, 40),
+                            textStyle: TextStyle(fontSize: 19)),
+                        child: Text("Convertir",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                        onPressed: () {
+                          ConvertirSolde(finalid, milesprimecontroller.text);
+                          setState(() {});
+                        })
+                  ],
+                ))
               ],
             ),
-            Text("Max 15000."),
-            Text("Miles Qualifiants"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(width: 170, height: 35, child: Text(mliesqua)),
-              ],
-            ),
-            Container(
-                child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size(140, 40),
-                        textStyle: TextStyle(fontSize: 19)),
-                    child: Text("Initialiser"),
-                    onPressed: () {
-                      TesterSolde(finalid, milesprimecontroller.text);
-                      setState(() {});
-                    }),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size(140, 40),
-                        textStyle: TextStyle(fontSize: 19)),
-                    child: Text("Convertir"),
-                    onPressed: () {
-                      ConvertirSolde(finalid, milesprimecontroller.text);
-                      setState(() {});
-                    })
-              ],
-            ))
-          ],
+          ),
         ));
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:currency_flutter/widgets/iconfont.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -269,9 +270,15 @@ class _gestion extends State<GestionProfile> {
     // TODO: implement build
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.only(left: 16, top: 20, right: 16),
+          
+      padding: EdgeInsets.only(left: 16, top: 5, right: 16),
       child: ListView(
+        
         children: [
+           Center(
+                child: Text("Mon Fidelys",
+                    style: TextStyle(fontSize: 25, fontFamily: 'ElMessiri')),
+              ),
           Row(
             children: [
               Icon(
@@ -323,8 +330,8 @@ class _gestion extends State<GestionProfile> {
                                 bottom: 20,
                               ),
                               Positioned(
-                                child: Text("ID : "+
-                                  data.id.toString(),
+                                child: Text(
+                                  "ID : " + data.id.toString(),
                                   style: ApptextStyle.LISTTILE_TITLE,
                                 ),
                                 right: 280,
@@ -339,19 +346,58 @@ class _gestion extends State<GestionProfile> {
             },
           ),
           SizedBox(
-            height: 20,
+            height: 15,
           ),
-          Row(
+          Container(
+            child: Center(
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => editprofile(),
+                      ));
+                },
+                color: Colors.white,
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 2, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20)),
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Container(
+                  height: 40,
+                  width: 180,
+                  child: Center(
+                    child: Row(
+                      children: [
+                        Icon(Icons.manage_accounts),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Editer votre profil",
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 17)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+           SizedBox(
+            height: 30,
+          ),
+                    Row(
             children: [
               Icon(
-                Icons.person,
+                Icons.history,
                 color: Colors.red[800],
               ),
               SizedBox(
                 width: 8,
               ),
               Text(
-                "Account",
+                "Mouvements",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ],
@@ -360,8 +406,28 @@ class _gestion extends State<GestionProfile> {
             height: 15,
             thickness: 2,
           ),
+          
           SizedBox(
-            height: 10,
+            height: 50,
+          ),
+          Row(
+            children: [
+              Icon(
+                Icons.lock,
+                color: Colors.red[800],
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              Text(
+                "Sécurité",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          Divider(
+            height: 15,
+            thickness: 2,
           ),
           GestureDetector(
             onTap: () {
@@ -391,67 +457,6 @@ class _gestion extends State<GestionProfile> {
                 ],
               ),
             ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => editApropos(),
-                  ));
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "A propos",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => editApropos2(),
-                  ));
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "user information",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 50,
           ),
         ],
       ),
@@ -776,709 +781,683 @@ class _editApropos extends State<editApropos> {
   Widget build(BuildContext context) {
     setState(() {});
     // TODO: implement build
-    return Scaffold(
-      drawer: NavigationDrawerWidget(),
-      appBar: AppBar(
-        backgroundColor: Color(0xFFD80404),
-        title: Container(
-          padding: EdgeInsets.all(25),
-          child: Image.asset(
-            "assets/images/tunisair.png",
-            height: 60,
-          ),
-        ),
-        elevation: 0.0,
-      ),
-      body: FutureBuilder(
-          future: getfid(finalid),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              List<Fidelys> data = snapshot.data;
-              data
-                  .map((data) => setinitial(
-                      data.firstname,
-                      data.secondname,
-                      data.email,
-                      data.sexe,
-                      data.tel,
-                      data.adresse,
-                      data.fonction,
-                      data.societe,
-                      data.cin,
-                      data.birthdaydate,
-                      data.nationalite))
-                  .toList();
-              return SingleChildScrollView(
-                  child: Column(
-                      children: data
-                          .map((data) => Container(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 16,
-                                          right: 16,
-                                          top: 8,
-                                          bottom: 8),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Container(
-                                            padding: EdgeInsets.all(16),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(24),
-                                                    topRight:
-                                                        Radius.circular(24))),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Center(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Text(
-                                                          "Votre nom",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Colors
-                                                                  .red[800]),
-                                                        ),
+    return FutureBuilder(
+        future: getfid(finalid),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            List<Fidelys> data = snapshot.data;
+            data
+                .map((data) => setinitial(
+                    data.firstname,
+                    data.secondname,
+                    data.email,
+                    data.sexe,
+                    data.tel,
+                    data.adresse,
+                    data.fonction,
+                    data.societe,
+                    data.cin,
+                    data.birthdaydate,
+                    data.nationalite))
+                .toList();
+            return SingleChildScrollView(
+                child: Column(
+                    children: data
+                        .map((data) => Container(
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 16, right: 16, top: 8, bottom: 8),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(24),
+                                                  topRight:
+                                                      Radius.circular(24))),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        "Nom",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors
+                                                                .red[800]),
                                                       ),
-                                                      SizedBox(
-                                                        width: 15,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          isvisible =
+                                                              !isvisible;
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.edit,
+                                                        color: Colors.red[800],
                                                       ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isvisible =
-                                                                !isvisible;
-                                                          });
-                                                        },
-                                                        icon: Icon(
-                                                          Icons.edit,
-                                                          color:
-                                                              Colors.red[800],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Visibility(
-                                                    visible: isvisible,
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 16,
-                                                          right: 16,
-                                                          bottom: 12),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          24),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          24))),
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(
+                                              ),
+                                              Visibility(
+                                                  visible: isvisible,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 16,
+                                                        right: 16,
+                                                        bottom: 12),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        24),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        24))),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 60,
+                                                          width: 300,
+                                                          child: TextFormField(
+                                                            autofocus: false,
+                                                            controller:
+                                                                nomcontroller,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .emailAddress,
+                                                            //validator
+                                                            onSaved: (value) {
+                                                              nomcontroller
+                                                                      .text =
+                                                                  value!;
+                                                            },
+                                                            textInputAction:
+                                                                TextInputAction
+                                                                    .next,
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            RaisedButton(
+                                                              onPressed: () {
+                                                                updatenom(
+                                                                    data.id
+                                                                        .toString(),
+                                                                    nomcontroller
+                                                                        .text);
+                                                                setState(() {
+                                                                  isvisible =
+                                                                      !isvisible;
+                                                                });
+                                                              },
+                                                              color: Colors
+                                                                  .red[800],
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          20),
+                                                              elevation: 2,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)),
+                                                              child: Text(
+                                                                "Confirmer",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    letterSpacing:
+                                                                        2.2,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(
+                                                    data.firstname,
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          height: 15,
+                                          thickness: 2,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(24),
+                                                  topRight:
+                                                      Radius.circular(24))),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        "Prénom",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors
+                                                                .red[800]),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          isvisible1 =
+                                                              !isvisible1;
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.edit,
+                                                        color: Colors.red[800],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Visibility(
+                                                  visible: isvisible1,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 16,
+                                                        right: 16,
+                                                        bottom: 12),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        24),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        24))),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 60,
+                                                          width: 300,
+                                                          child: TextFormField(
+                                                            autofocus: false,
+                                                            controller:
+                                                                prenomcontroller,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .emailAddress,
+                                                            //validator
+                                                            onSaved: (value) {
+                                                              prenomcontroller
+                                                                      .text =
+                                                                  value!;
+                                                            },
+                                                            textInputAction:
+                                                                TextInputAction
+                                                                    .next,
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            RaisedButton(
+                                                              onPressed: () {
+                                                                updateprenom(
+                                                                    data.id
+                                                                        .toString(),
+                                                                    prenomcontroller
+                                                                        .text);
+                                                                setState(() {
+                                                                  isvisible1 =
+                                                                      !isvisible1;
+                                                                });
+                                                              },
+                                                              color: Colors
+                                                                  .red[800],
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          20),
+                                                              elevation: 2,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)),
+                                                              child: Text(
+                                                                "Confirmer",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    letterSpacing:
+                                                                        2.2,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(
+                                                    data.secondname,
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          height: 15,
+                                          thickness: 2,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(24),
+                                                  topRight:
+                                                      Radius.circular(24))),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        "E-Mail",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors
+                                                                .red[800]),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          isvisible2 =
+                                                              !isvisible2;
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.edit,
+                                                        color: Colors.red[800],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Visibility(
+                                                  visible: isvisible2,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 16,
+                                                        right: 16,
+                                                        bottom: 12),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        24),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        24))),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 60,
+                                                          width: 300,
+                                                          child: TextFormField(
+                                                            autofocus: false,
+                                                            controller:
+                                                                mailcontroller,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .emailAddress,
+                                                            //validator
+                                                            onSaved: (value) {
+                                                              mailcontroller
+                                                                      .text =
+                                                                  value!;
+                                                            },
+                                                            textInputAction:
+                                                                TextInputAction
+                                                                    .next,
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            RaisedButton(
+                                                              onPressed: () {
+                                                                updateemail(
+                                                                    data.id
+                                                                        .toString(),
+                                                                    mailcontroller
+                                                                        .text);
+                                                                setState(() {
+                                                                  isvisible2 =
+                                                                      !isvisible2;
+                                                                });
+                                                              },
+                                                              color: Colors
+                                                                  .red[800],
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          20),
+                                                              elevation: 2,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)),
+                                                              child: Text(
+                                                                "Confirmer",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    letterSpacing:
+                                                                        2.2,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(
+                                                    data.email,
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          height: 15,
+                                          thickness: 2,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(24),
+                                                  topRight:
+                                                      Radius.circular(24))),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        "Date de naissance",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors
+                                                                .red[800]),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          isvisible4 =
+                                                              !isvisible4;
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.edit,
+                                                        color: Colors.red[800],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Visibility(
+                                                  visible: isvisible4,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 16,
+                                                        right: 16,
+                                                        bottom: 12),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        24),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        24))),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
                                                             height: 60,
                                                             width: 300,
                                                             child:
                                                                 TextFormField(
-                                                              autofocus: false,
                                                               controller:
-                                                                  nomcontroller,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .emailAddress,
-                                                              //validator
-                                                              onSaved: (value) {
-                                                                nomcontroller
-                                                                        .text =
-                                                                    value!;
-                                                              },
+                                                                  birthadaydateController,
                                                               textInputAction:
                                                                   TextInputAction
                                                                       .next,
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              RaisedButton(
-                                                                onPressed: () {
-                                                                  updatenom(
-                                                                      data.id
-                                                                          .toString(),
-                                                                      nomcontroller
-                                                                          .text);
-                                                                  setState(() {
-                                                                    isvisible =
-                                                                        !isvisible;
-                                                                  });
-                                                                },
-                                                                color: Colors
-                                                                    .red[800],
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            20),
-                                                                elevation: 2,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                child: Text(
-                                                                  "SAVE",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          11,
-                                                                      letterSpacing:
-                                                                          2.2,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                SizedBox(
-                                                  height: 7,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      data.firstname,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Divider(
-                                            height: 15,
-                                            thickness: 2,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.all(16),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(24),
-                                                    topRight:
-                                                        Radius.circular(24))),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Center(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Text(
-                                                          "Votre prenom",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Colors
-                                                                  .red[800]),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 15,
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isvisible1 =
-                                                                !isvisible1;
-                                                          });
-                                                        },
-                                                        icon: Icon(
-                                                          Icons.edit,
-                                                          color:
-                                                              Colors.red[800],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                    visible: isvisible1,
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 16,
-                                                          right: 16,
-                                                          bottom: 12),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          24),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          24))),
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 60,
-                                                            width: 300,
-                                                            child:
-                                                                TextFormField(
-                                                              autofocus: false,
-                                                              controller:
-                                                                  prenomcontroller,
                                                               keyboardType:
                                                                   TextInputType
-                                                                      .emailAddress,
-                                                              //validator
-                                                              onSaved: (value) {
-                                                                prenomcontroller
-                                                                        .text =
-                                                                    value!;
-                                                              },
-                                                              textInputAction:
-                                                                  TextInputAction
-                                                                      .next,
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              RaisedButton(
-                                                                onPressed: () {
-                                                                  updateprenom(
-                                                                      data.id
-                                                                          .toString(),
-                                                                      prenomcontroller
-                                                                          .text);
-                                                                  setState(() {
-                                                                    isvisible1 =
-                                                                        !isvisible1;
-                                                                  });
-                                                                },
-                                                                color: Colors
-                                                                    .red[800],
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            20),
-                                                                elevation: 2,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                child: Text(
-                                                                  "SAVE",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          11,
-                                                                      letterSpacing:
-                                                                          2.2,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                SizedBox(
-                                                  height: 7,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      data.secondname,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Divider(
-                                            height: 15,
-                                            thickness: 2,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.all(16),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(24),
-                                                    topRight:
-                                                        Radius.circular(24))),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Center(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Text(
-                                                          "Votre email",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Colors
-                                                                  .red[800]),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 15,
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isvisible2 =
-                                                                !isvisible2;
-                                                          });
-                                                        },
-                                                        icon: Icon(
-                                                          Icons.edit,
-                                                          color:
-                                                              Colors.red[800],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                    visible: isvisible2,
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 16,
-                                                          right: 16,
-                                                          bottom: 12),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          24),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          24))),
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 60,
-                                                            width: 300,
-                                                            child:
-                                                                TextFormField(
-                                                              autofocus: false,
-                                                              controller:
-                                                                  mailcontroller,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .emailAddress,
-                                                              //validator
-                                                              onSaved: (value) {
-                                                                mailcontroller
-                                                                        .text =
-                                                                    value!;
-                                                              },
-                                                              textInputAction:
-                                                                  TextInputAction
-                                                                      .next,
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              RaisedButton(
-                                                                onPressed: () {
-                                                                  updateemail(
-                                                                      data.id
-                                                                          .toString(),
-                                                                      mailcontroller
-                                                                          .text);
-                                                                  setState(() {
-                                                                    isvisible2 =
-                                                                        !isvisible2;
-                                                                  });
-                                                                },
-                                                                color: Colors
-                                                                    .red[800],
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            20),
-                                                                elevation: 2,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                child: Text(
-                                                                  "SAVE",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          11,
-                                                                      letterSpacing:
-                                                                          2.2,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                SizedBox(
-                                                  height: 7,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      data.email,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Divider(
-                                            height: 15,
-                                            thickness: 2,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.all(16),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(24),
-                                                    topRight:
-                                                        Radius.circular(24))),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Center(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Text(
-                                                          "Date de naissance",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Colors
-                                                                  .red[800]),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 15,
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isvisible4 =
-                                                                !isvisible4;
-                                                          });
-                                                        },
-                                                        icon: Icon(
-                                                          Icons.edit,
-                                                          color:
-                                                              Colors.red[800],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                    visible: isvisible4,
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 16,
-                                                          right: 16,
-                                                          bottom: 12),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          24),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          24))),
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(
-                                                              height: 60,
-                                                              width: 300,
-                                                              child:
-                                                                  TextFormField(
-                                                                controller:
-                                                                    birthadaydateController,
-                                                                textInputAction:
-                                                                    TextInputAction
-                                                                        .next,
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .datetime,
-                                                                onTap:
-                                                                    () async {
-                                                                  DateTime?
-                                                                      pickedDate =
-                                                                      await showDatePicker(
-                                                                          context:
-                                                                              context,
-                                                                          initialDate: DateTime
-                                                                              .now(),
-                                                                          firstDate: DateTime(
-                                                                              1920), //DateTime.now() - not to allow to choose before today.
-                                                                          lastDate:
-                                                                              DateTime.now());
+                                                                      .datetime,
+                                                              onTap: () async {
+                                                                DateTime?
+                                                                    pickedDate =
+                                                                    await showDatePicker(
+                                                                        context:
+                                                                            context,
+                                                                        initialDate:
+                                                                            DateTime
+                                                                                .now(),
+                                                                        firstDate:
+                                                                            DateTime(
+                                                                                1920), //DateTime.now() - not to allow to choose before today.
+                                                                        lastDate:
+                                                                            DateTime.now());
 
-                                                                  if (pickedDate !=
-                                                                      null) {
-                                                                    print(
-                                                                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                                                    String
-                                                                        formattedDate =
-                                                                        DateFormat('dd-MM-yyyy')
-                                                                            .format(pickedDate);
-                                                                    print(
-                                                                        formattedDate); //formatted date output using intl package =>  2021-03-16
-                                                                    //you can implement different kind of Date Format here according to your requirement
+                                                                if (pickedDate !=
+                                                                    null) {
+                                                                  print(
+                                                                      pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                                                  String
+                                                                      formattedDate =
+                                                                      DateFormat(
+                                                                              'dd-MM-yyyy')
+                                                                          .format(
+                                                                              pickedDate);
+                                                                  print(
+                                                                      formattedDate); //formatted date output using intl package =>  2021-03-16
+                                                                  //you can implement different kind of Date Format here according to your requirement
 
-                                                                    setState(
-                                                                        () {
-                                                                      birthadaydateController
-                                                                              .text =
-                                                                          formattedDate; //set output date to TextField value.
-                                                                    });
-                                                                  } else {
-                                                                    print(
-                                                                        "Date is not selected");
-                                                                  }
-                                                                },
-                                                              )),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              RaisedButton(
-                                                                onPressed: () {
-                                                                  updatedate(
-                                                                      data.id
-                                                                          .toString(),
-                                                                      birthadaydateController
-                                                                          .text);
                                                                   setState(() {
-                                                                    isvisible4 =
-                                                                        !isvisible4;
+                                                                    birthadaydateController
+                                                                            .text =
+                                                                        formattedDate; //set output date to TextField value.
                                                                   });
-                                                                },
-                                                                color: Colors
-                                                                    .red[800],
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            20),
-                                                                elevation: 2,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                child: Text(
-                                                                  "SAVE",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          11,
-                                                                      letterSpacing:
-                                                                          2.2,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                SizedBox(
-                                                  height: 7,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      data.birthDaydate,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                                } else {
+                                                                  print(
+                                                                      "Date is not selected");
+                                                                }
+                                                              },
+                                                            )),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            RaisedButton(
+                                                              onPressed: () {
+                                                                updatedate(
+                                                                    data.id
+                                                                        .toString(),
+                                                                    birthadaydateController
+                                                                        .text);
+                                                                setState(() {
+                                                                  isvisible4 =
+                                                                      !isvisible4;
+                                                                });
+                                                              },
+                                                              color: Colors
+                                                                  .red[800],
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          20),
+                                                              elevation: 2,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)),
+                                                              child: Text(
+                                                                "Confirmer",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    letterSpacing:
+                                                                        2.2,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                                  )),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(
+                                                    data.birthDaydate,
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ))
-                          .toList()));
-            }
-            return Center(child: CircularProgressIndicator());
-          }),
-    );
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ))
+                        .toList()));
+          }
+          return Center(child: CircularProgressIndicator());
+        });
   }
 }
 
@@ -1517,6 +1496,658 @@ class _editApropos2 extends State<editApropos2> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    return FutureBuilder(
+        future: getfid(finalid),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            List<Fidelys> data = snapshot.data;
+            data
+                .map((data) => setinitial(
+                    data.firstname,
+                    data.secondname,
+                    data.email,
+                    data.sexe,
+                    data.tel,
+                    data.adresse,
+                    data.fonction,
+                    data.societe,
+                    data.cin,
+                    data.birthdaydate,
+                    data.nationalite))
+                .toList();
+            return SingleChildScrollView(
+                child: Column(
+                    children: data
+                        .map((data) => Container(
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 16, right: 16, top: 8, bottom: 8),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(24),
+                                                  topRight:
+                                                      Radius.circular(24))),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        "CIN",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors
+                                                                .red[800]),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          isvisible =
+                                                              !isvisible;
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.edit,
+                                                        color: Colors.red[800],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Visibility(
+                                                  visible: isvisible,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 16,
+                                                        right: 16,
+                                                        bottom: 12),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        24),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        24))),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 60,
+                                                          width: 300,
+                                                          child: TextFormField(
+                                                            autofocus: false,
+                                                            controller:
+                                                                cinController,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .emailAddress,
+                                                            //validator
+                                                            onSaved: (value) {
+                                                              cinController
+                                                                      .text =
+                                                                  value!;
+                                                            },
+                                                            textInputAction:
+                                                                TextInputAction
+                                                                    .next,
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            RaisedButton(
+                                                              onPressed: () {
+                                                                updatecin(
+                                                                    data.id
+                                                                        .toString(),
+                                                                    cinController
+                                                                        .text);
+                                                                setState(() {
+                                                                  isvisible =
+                                                                      !isvisible;
+                                                                });
+                                                              },
+                                                              color: Colors
+                                                                  .red[800],
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          20),
+                                                              elevation: 2,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)),
+                                                              child: Text(
+                                                                "Confirmer",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    letterSpacing:
+                                                                        2.2,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(
+                                                    data.cin,
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          height: 15,
+                                          thickness: 2,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(24),
+                                                  topRight:
+                                                      Radius.circular(24))),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        "Fonction",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors
+                                                                .red[800]),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          isvisible2 =
+                                                              !isvisible2;
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.edit,
+                                                        color: Colors.red[800],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Visibility(
+                                                  visible: isvisible2,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 16,
+                                                        right: 16,
+                                                        bottom: 12),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        24),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        24))),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 60,
+                                                          width: 300,
+                                                          child: TextFormField(
+                                                            autofocus: false,
+                                                            controller:
+                                                                fonctioncontroller,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .emailAddress,
+                                                            //validator
+                                                            onSaved: (value) {
+                                                              fonctioncontroller
+                                                                      .text =
+                                                                  value!;
+                                                            },
+                                                            textInputAction:
+                                                                TextInputAction
+                                                                    .next,
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            RaisedButton(
+                                                              onPressed: () {
+                                                                updatefon(
+                                                                    data.id
+                                                                        .toString(),
+                                                                    fonctioncontroller
+                                                                        .text);
+                                                                setState(() {
+                                                                  isvisible2 =
+                                                                      !isvisible2;
+                                                                });
+                                                              },
+                                                              color: Colors
+                                                                  .red[800],
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          20),
+                                                              elevation: 2,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)),
+                                                              child: Text(
+                                                                "Confirmer",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    letterSpacing:
+                                                                        2.2,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(
+                                                    data.fonction,
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          height: 15,
+                                          thickness: 2,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(24),
+                                                  topRight:
+                                                      Radius.circular(24))),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        "Societe",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors
+                                                                .red[800]),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          isvisible3 =
+                                                              !isvisible3;
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.edit,
+                                                        color: Colors.red[800],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Visibility(
+                                                  visible: isvisible3,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 16,
+                                                        right: 16,
+                                                        bottom: 12),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        24),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        24))),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 60,
+                                                          width: 300,
+                                                          child: TextFormField(
+                                                            autofocus: false,
+                                                            controller:
+                                                                soccontroller,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .emailAddress,
+                                                            //validator
+                                                            onSaved: (value) {
+                                                              soccontroller
+                                                                      .text =
+                                                                  value!;
+                                                            },
+                                                            textInputAction:
+                                                                TextInputAction
+                                                                    .next,
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            RaisedButton(
+                                                              onPressed: () {
+                                                                updatesoc(
+                                                                    data.id
+                                                                        .toString(),
+                                                                    soccontroller
+                                                                        .text);
+                                                                setState(() {
+                                                                  isvisible3 =
+                                                                      !isvisible3;
+                                                                });
+                                                              },
+                                                              color: Colors
+                                                                  .red[800],
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          20),
+                                                              elevation: 2,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)),
+                                                              child: Text(
+                                                                "Confirmer",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    letterSpacing:
+                                                                        2.2,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(
+                                                    data.societe,
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          height: 15,
+                                          thickness: 2,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(24),
+                                                  topRight:
+                                                      Radius.circular(24))),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        "Numero du telephone",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors
+                                                                .red[800]),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          isvisible4 =
+                                                              !isvisible4;
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.edit,
+                                                        color: Colors.red[800],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Visibility(
+                                                  visible: isvisible4,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 16,
+                                                        right: 16,
+                                                        bottom: 12),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        24),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        24))),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 60,
+                                                          width: 300,
+                                                          child: TextFormField(
+                                                            autofocus: false,
+                                                            controller:
+                                                                telcontroller,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .emailAddress,
+                                                            //validator
+                                                            onSaved: (value) {
+                                                              telcontroller
+                                                                      .text =
+                                                                  value!;
+                                                            },
+                                                            textInputAction:
+                                                                TextInputAction
+                                                                    .next,
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            RaisedButton(
+                                                              onPressed: () {
+                                                                updatetel(
+                                                                    data.id
+                                                                        .toString(),
+                                                                    telcontroller
+                                                                        .text);
+                                                                setState(() {
+                                                                  isvisible4 =
+                                                                      !isvisible4;
+                                                                });
+                                                              },
+                                                              color: Colors
+                                                                  .red[800],
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          20),
+                                                              elevation: 2,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)),
+                                                              child: Text(
+                                                                "Confirmer",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    letterSpacing:
+                                                                        2.2,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(
+                                                    data.tel,
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ))
+                        .toList()));
+          }
+          return Center(child: CircularProgressIndicator());
+        });
+  }
+}
+
+class editprofile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
     return Scaffold(
       drawer: NavigationDrawerWidget(),
       appBar: AppBar(
@@ -1530,666 +2161,10 @@ class _editApropos2 extends State<editApropos2> {
         ),
         elevation: 0.0,
       ),
-      body: FutureBuilder(
-          future: getfid(finalid),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              List<Fidelys> data = snapshot.data;
-              data
-                  .map((data) => setinitial(
-                      data.firstname,
-                      data.secondname,
-                      data.email,
-                      data.sexe,
-                      data.tel,
-                      data.adresse,
-                      data.fonction,
-                      data.societe,
-                      data.cin,
-                      data.birthdaydate,
-                      data.nationalite))
-                  .toList();
-              return SingleChildScrollView(
-                  child: Column(
-                      children: data
-                          .map((data) => Container(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 16,
-                                          right: 16,
-                                          top: 8,
-                                          bottom: 8),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Container(
-                                            padding: EdgeInsets.all(16),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(24),
-                                                    topRight:
-                                                        Radius.circular(24))),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Center(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Text(
-                                                          "CIN",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Colors
-                                                                  .red[800]),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 15,
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isvisible =
-                                                                !isvisible;
-                                                          });
-                                                        },
-                                                        icon: Icon(
-                                                          Icons.edit,
-                                                          color:
-                                                              Colors.red[800],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                    visible: isvisible,
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 16,
-                                                          right: 16,
-                                                          bottom: 12),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          24),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          24))),
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 60,
-                                                            width: 300,
-                                                            child:
-                                                                TextFormField(
-                                                              autofocus: false,
-                                                              controller:
-                                                                  cinController,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .emailAddress,
-                                                              //validator
-                                                              onSaved: (value) {
-                                                                cinController
-                                                                        .text =
-                                                                    value!;
-                                                              },
-                                                              textInputAction:
-                                                                  TextInputAction
-                                                                      .next,
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              RaisedButton(
-                                                                onPressed: () {
-                                                                  updatecin(
-                                                                      data.id
-                                                                          .toString(),
-                                                                      cinController
-                                                                          .text);
-                                                                  setState(() {
-                                                                    isvisible =
-                                                                        !isvisible;
-                                                                  });
-                                                                },
-                                                                color: Colors
-                                                                    .red[800],
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            20),
-                                                                elevation: 2,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                child: Text(
-                                                                  "SAVE",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          11,
-                                                                      letterSpacing:
-                                                                          2.2,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                SizedBox(
-                                                  height: 7,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      data.cin,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Divider(
-                                            height: 15,
-                                            thickness: 2,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.all(16),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(24),
-                                                    topRight:
-                                                        Radius.circular(24))),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Center(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Text(
-                                                          "Fonction",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Colors
-                                                                  .red[800]),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 15,
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isvisible2 =
-                                                                !isvisible2;
-                                                          });
-                                                        },
-                                                        icon: Icon(
-                                                          Icons.edit,
-                                                          color:
-                                                              Colors.red[800],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                    visible: isvisible2,
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 16,
-                                                          right: 16,
-                                                          bottom: 12),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          24),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          24))),
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 60,
-                                                            width: 300,
-                                                            child:
-                                                                TextFormField(
-                                                              autofocus: false,
-                                                              controller:
-                                                                  fonctioncontroller,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .emailAddress,
-                                                              //validator
-                                                              onSaved: (value) {
-                                                                fonctioncontroller
-                                                                        .text =
-                                                                    value!;
-                                                              },
-                                                              textInputAction:
-                                                                  TextInputAction
-                                                                      .next,
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              RaisedButton(
-                                                                onPressed: () {
-                                                                  updatefon(
-                                                                      data.id
-                                                                          .toString(),
-                                                                      fonctioncontroller
-                                                                          .text);
-                                                                  setState(() {
-                                                                    isvisible2 =
-                                                                        !isvisible2;
-                                                                  });
-                                                                },
-                                                                color: Colors
-                                                                    .red[800],
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            20),
-                                                                elevation: 2,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                child: Text(
-                                                                  "SAVE",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          11,
-                                                                      letterSpacing:
-                                                                          2.2,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                SizedBox(
-                                                  height: 7,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      data.fonction,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Divider(
-                                            height: 15,
-                                            thickness: 2,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.all(16),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(24),
-                                                    topRight:
-                                                        Radius.circular(24))),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Center(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Text(
-                                                          "Societe",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Colors
-                                                                  .red[800]),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 15,
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isvisible3 =
-                                                                !isvisible3;
-                                                          });
-                                                        },
-                                                        icon: Icon(
-                                                          Icons.edit,
-                                                          color:
-                                                              Colors.red[800],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                    visible: isvisible3,
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 16,
-                                                          right: 16,
-                                                          bottom: 12),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          24),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          24))),
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 60,
-                                                            width: 300,
-                                                            child:
-                                                                TextFormField(
-                                                              autofocus: false,
-                                                              controller:
-                                                                  soccontroller,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .emailAddress,
-                                                              //validator
-                                                              onSaved: (value) {
-                                                                soccontroller
-                                                                        .text =
-                                                                    value!;
-                                                              },
-                                                              textInputAction:
-                                                                  TextInputAction
-                                                                      .next,
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              RaisedButton(
-                                                                onPressed: () {
-                                                                  updatesoc(
-                                                                      data.id
-                                                                          .toString(),
-                                                                      soccontroller
-                                                                          .text);
-                                                                  setState(() {
-                                                                    isvisible3 =
-                                                                        !isvisible3;
-                                                                  });
-                                                                },
-                                                                color: Colors
-                                                                    .red[800],
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            20),
-                                                                elevation: 2,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                child: Text(
-                                                                  "SAVE",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          11,
-                                                                      letterSpacing:
-                                                                          2.2,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                SizedBox(
-                                                  height: 7,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      data.societe,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Divider(
-                                            height: 15,
-                                            thickness: 2,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.all(16),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(24),
-                                                    topRight:
-                                                        Radius.circular(24))),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Center(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Text(
-                                                          "Numero du telephone",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Colors
-                                                                  .red[800]),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 15,
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isvisible4 =
-                                                                !isvisible4;
-                                                          });
-                                                        },
-                                                        icon: Icon(
-                                                          Icons.edit,
-                                                          color:
-                                                              Colors.red[800],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                    visible: isvisible4,
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 16,
-                                                          right: 16,
-                                                          bottom: 12),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          24),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          24))),
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 60,
-                                                            width: 300,
-                                                            child:
-                                                                TextFormField(
-                                                              autofocus: false,
-                                                              controller:
-                                                                  telcontroller,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .emailAddress,
-                                                              //validator
-                                                              onSaved: (value) {
-                                                                telcontroller
-                                                                        .text =
-                                                                    value!;
-                                                              },
-                                                              textInputAction:
-                                                                  TextInputAction
-                                                                      .next,
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              RaisedButton(
-                                                                onPressed: () {
-                                                                  updatetel(
-                                                                      data.id
-                                                                          .toString(),
-                                                                      telcontroller
-                                                                          .text);
-                                                                  setState(() {
-                                                                    isvisible4 =
-                                                                        !isvisible4;
-                                                                  });
-                                                                },
-                                                                color: Colors
-                                                                    .red[800],
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            20),
-                                                                elevation: 2,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                child: Text(
-                                                                  "SAVE",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          11,
-                                                                      letterSpacing:
-                                                                          2.2,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                SizedBox(
-                                                  height: 7,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      data.tel,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ))
-                          .toList()));
-            }
-            return Center(child: CircularProgressIndicator());
-          }),
+      body: SingleChildScrollView(
+          child: Column(
+        children: [editApropos(), editApropos2()],
+      )),
     );
   }
 }
